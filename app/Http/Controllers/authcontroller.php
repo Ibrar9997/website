@@ -10,10 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
-
-
-
-
+use Illuminate\Validation\Rules\Password as PasswordRule;
 
 class AuthController extends Controller
 {
@@ -77,18 +74,23 @@ class AuthController extends Controller
         return redirect()->route('login');
     }
     public function updatePassword(Request $request)
-    {
-        $validated = $request->validate([
-            'oldpasswordInput' => ['required', 'current_password'],
-            'newpasswordInput' => ['required', Password::defaults(), 'confirmed'],
-        ]);
+{
+    $validated = $request->validate([
+        'oldpasswordInput' => ['required', 'current_password'],
+        'newpasswordInput' => [
+            'required',
+            PasswordRule::defaults(),
+            'confirmed'
+        ],
+    ]);
 
-        $request->user()->update([
-            'password' => Hash::make($validated['newpasswordInput']),
-        ]);
+    $request->user()->update([
+        'password' => Hash::make($validated['newpasswordInput']),
+    ]);
 
-        return back()->with('status', 'Password updated successfully!');
-    }
+    return back()->with('status', 'Password updated successfully!');
+}
+
     public function update(Request $request)
     {
         $user = Auth::user();
