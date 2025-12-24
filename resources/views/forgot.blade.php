@@ -81,7 +81,7 @@
                                                 @endif
                                                 <div class="mb-4">
                                                     <label class="form-label">Email</label>
-                                                    <input type="email" class="form-control" id="email"
+                                                    <input type="email" class="form-control" id="email" name="email"
                                                         placeholder="Enter email address">
                                                 </div>
 

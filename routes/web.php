@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 
 Route::middleware(['auth'])->group(function () {
     // ******Dashboard route******
@@ -36,13 +37,22 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/loginSave', [AuthController::class, 'check'])->name('loginSave');
 
-    //****Forgot Password route *****
+    //****Forgot Password route*****
     Route::get('/forgot', function () {
         return view('forgot');
     })->name('forgot');
     Route::get('/forgot-password', [AuthController::class, 'showForgotForm'])
         ->name('password.request');
 
+    //****Send reset email***
     Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])
         ->name('password.email');
+
+    //****RESET LINK****
+    Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])
+        ->name('password.reset');
+
+    //****RESET PASSWORD****
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])
+        ->name('password.update');
 });
