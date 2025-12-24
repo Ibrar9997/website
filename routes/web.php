@@ -1,30 +1,48 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\authcontroller;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\AuthController;
+use App\Models\User;
+
+Route::middleware(['auth'])->group(function () {
+    // ******Dashboard route******
+    Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+
+    // ******Profile route******
+    Route::get('/user_profile', function () {
+        return view('user_profile');
+    })->name('user_profile');
+    Route::get('/edit_profile', function () {
+        return view('edit_profile');
+    })->name('edit_profile');
+    // Other profile routes...
+    Route::put('/profile-update', [AuthController::class, 'updatePassword'])->name('profile.update.password');
+
+    Route::put('/profile', [AuthController::class, 'update'])
+        ->name('profile.update');
 
 
-// ******page-1 route******
-Route::get('/page-1', function () {
-    return view('page-1');
+
+    // Logout route
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-// ******page-2 route******
-Route::get('/page-2', function () {
-    return view('page-2');
-});
+Route::middleware(['guest'])->group(function () {
+    // ******Sign-up routes******
+    Route::get('/register', [AuthController::class, 'register'])->name('register');
+    Route::post('registerSave', [AuthController::class, 'store'])->name('registerSave');
 
-// ******Sign-up route******
-Route::get('/register', function(){
-    return view('auth/register');
-});
-Route::get('/register', [authcontroller::class, 'register']);
+    // ******Sign-in routes******
+    Route::get('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/loginSave', [AuthController::class, 'check'])->name('loginSave');
 
+    //****Forgot Password route *****
+    Route::get('/forgot', function () {
+        return view('forgot');
+    })->name('forgot');
+    Route::get('/forgot-password', [AuthController::class, 'showForgotForm'])
+        ->name('password.request');
 
-// ******Sign-in route******
-Route::get('/login', function(){
-    return view('auth/login');
+    Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])
+        ->name('password.email');
 });
-Route::get('/', [authcontroller::class, 'login']);
