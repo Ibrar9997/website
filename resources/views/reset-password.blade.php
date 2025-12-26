@@ -84,7 +84,7 @@
                                             <form action="{{ route('password.update') }}" method="POST">
                                                 @csrf
                                                 <input type="hidden" name="token" value="{{ $token }}">
-    <input type="hidden" name="email" value="{{ $email }}">
+                                                <input type="hidden" name="email" value="{{ $email }}">
                                                 <div class="mb-3">
                                                     <label class="form-label" for="password-input">New Password</label>
                                                     <div class="position-relative auth-pass-inputgroup">
@@ -122,9 +122,11 @@
                                                     <h5 class="fs-13">Password must contain:</h5>
                                                     <p id="pass-length" class="invalid fs-12 mb-2">Minimum <b>8
                                                             characters</b></p>
-                                                    <p id="pass-lower" class="invalid fs-12 mb-2">At <b>lowercase</b> letter
+                                                    <p id="pass-lower" class="invalid fs-12 mb-2">At <b>lowercase</b>
+                                                        letter
                                                         (a-z)</p>
-                                                    <p id="pass-upper" class="invalid fs-12 mb-2">At least <b>uppercase</b>
+                                                    <p id="pass-upper" class="invalid fs-12 mb-2">At least
+                                                        <b>uppercase</b>
                                                         letter (A-Z)</p>
                                                     <p id="pass-number" class="invalid fs-12 mb-0">A least <b>number</b>
                                                         (0-9)</p>

@@ -6,34 +6,36 @@ use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 
 Route::middleware(['auth'])->group(function () {
+
     // ******Dashboard route******
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 
-    // ******Profile route******
+    // ******Profile routes******
     Route::get('/user_profile', function () {
         return view('user_profile');
     })->name('user_profile');
+
     Route::get('/edit_profile', function () {
         return view('edit_profile');
     })->name('edit_profile');
-    // Other profile routes...
-    Route::put('/profile-update', [AuthController::class, 'updatePassword'])->name('profile.update.password');
+
+    Route::put('/profile-update', [AuthController::class, 'updatePassword'])
+        ->name('profile.update.password');
 
     Route::put('/profile', [AuthController::class, 'update'])
         ->name('profile.update');
 
-
-
-    // Logout route
+    //****Logout route****
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 Route::middleware(['guest'])->group(function () {
+
     // ******Sign-up routes******
     Route::get('/register', [AuthController::class, 'register'])->name('register');
     Route::post('registerSave', [AuthController::class, 'store'])->name('registerSave');
 
-    // ******Sign-in routes******
+    // ******Sign-in route******
     Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/loginSave', [AuthController::class, 'check'])->name('loginSave');
 
@@ -44,15 +46,18 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/forgot-password', [AuthController::class, 'showForgotForm'])
         ->name('password.request');
 
-    //****Send reset email***
+    //****Send reset email route***
     Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])
         ->name('password.email');
 
-    //****RESET LINK****
+    //****RESET LINK route****
     Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])
         ->name('password.reset');
 
-    //****RESET PASSWORD****
+    //****RESET PASSWORD route****
     Route::post('/reset-password', [AuthController::class, 'resetPassword'])
         ->name('password.update');
+
+    Route::get('/verify-email/{token}', [AuthController::class, 'verifyEmail'])
+        ->name('verify.email');
 });

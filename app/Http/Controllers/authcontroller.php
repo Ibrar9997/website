@@ -11,53 +11,98 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\Rules\Password as PasswordRule;
+use Illuminate\Support\Str;
+use App\Mail\VerifyEmail;
 
 class AuthController extends Controller
 {
+    /****LoginPage Function****/
     public function login()
     {
         return view('auth.login');
     }
 
+    /****RegisterPage Function****/
     public function register()
     {
         return view('auth.register');
     }
 
+    /****SignUp Function****/
+
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'full_name' => 'required',
+        $validated = $request->validate([
+            'full_name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed',
+            'password' => 'required|min:8|confirmed',
         ]);
 
-        $data['password'] = bcrypt($data['password']);
+        $user = User::create([
+            'full_name' => $validated['full_name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'email_verification_token' => Str::uuid(),
+        ]);
 
-        $user = User::create($data);
+        Mail::to($user->email)->send(new VerifyEmail($user));
 
-        if ($user) {
-            return redirect()->route('login');
-        }
+        return redirect()->route('login')
+            ->with('status', 'Verification email sent. Please check your inbox.');
     }
 
+    public function verifyEmail($token)
+    {
+
+        $user = User::where('email_verification_token', $token)->first();
+
+        if (!$user) {
+            return redirect()->route('login')
+                ->withErrors(['email' => 'Invalid or expired verification link.']);
+        }
+
+        $user->email_verified_at = now();
+        $user->email_verification_token = null;
+        $user->save();
+
+        Auth::logout(); // force clean state
+
+        return redirect()->route('login')
+            ->with('status', 'Email verified successfully! You can now login.');
+    }
+
+
+
+    /****LoginAuth Function****/
     public function check(Request $request)
     {
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
-        // dd($request->all());
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            // dd($request->all());
-            return redirect()->intended(route('dashboard'));
+
+        if (!Auth::attempt($credentials)) {
+            return back()->withErrors([
+                'email' => 'Invalid login credentials.',
+            ]);
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+        $user = Auth::user();
+
+        if (is_null($user->email_verified_at)) {
+            Auth::logout();
+
+            return back()->withErrors([
+                'email' => 'Please verify your email before logging in.',
+            ]);
+        }
+
+        $request->session()->regenerate();
+
+        return redirect()->route('dashboard');
     }
+
+    /****DashboardPage Function****/
     public function dashboard()
     {
         if (Auth::check()) {
@@ -65,32 +110,32 @@ class AuthController extends Controller
         }
         return redirect()->route('login');
     }
+
+    /****Logout Function****/
     public function logout(Request $request)
     {
-
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('login');
     }
+
+    /****UpdatePassword Function****/
     public function updatePassword(Request $request)
-{
-    $validated = $request->validate([
-        'oldpasswordInput' => ['required', 'current_password'],
-        'newpasswordInput' => [
-            'required',
-            PasswordRule::defaults(),
-            'confirmed'
-        ],
-    ]);
+    {
+        $validated = $request->validate([
+            'oldpasswordInput' => ['required', 'current_password'],
+            'newpasswordInput' => ['required', PasswordRule::defaults(), 'confirmed'],
+        ]);
 
-    $request->user()->update([
-        'password' => Hash::make($validated['newpasswordInput']),
-    ]);
+        $request->user()->update([
+            'password' => Hash::make($validated['newpasswordInput']),
+        ]);
 
-    return back()->with('status', 'Password updated successfully!');
-}
+        return back()->with('status', 'Password updated successfully!');
+    }
 
+    /****UpdateUserData Function****/
     public function update(Request $request)
     {
         $user = Auth::user();
@@ -101,22 +146,21 @@ class AuthController extends Controller
 
         $validated = $request->validate([
             'full_name' => 'required|string|max:255',
-            'email' => [
-                'required',
-                'email',
-                Rule::unique('users')->ignore($user->id),
-            ],
+            'email' => ['required', 'email', Rule::unique('users')->ignore($user->id),],
         ]);
 
         $user->update($validated);
 
         return back()->with('success', 'Profile updated successfully!');
     }
+
+    /****ForgotPasswordPage Function****/
     public function showForgotForm()
     {
         return view('auth.forgot-password');
     }
 
+    /****ResetPasswordLink Function****/
     public function sendResetLink(Request $request)
     {
         //dd($request->all());
@@ -132,6 +176,8 @@ class AuthController extends Controller
             ? back()->with('status', __($status))
             : back()->withErrors(['email' => __($status)]);
     }
+
+    /****ResetFormPage Function****/
     public function showResetForm(Request $request, $token)
     {
         return view('reset-password', [
@@ -139,6 +185,8 @@ class AuthController extends Controller
             'email' => $request->email,
         ]);
     }
+
+    /****ResetPassword Function****/
     public function resetPassword(Request $request)
     {
         $request->validate([
