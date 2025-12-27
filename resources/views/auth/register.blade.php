@@ -92,7 +92,7 @@
                                                 <label for="useremail" class="form-label">Email <span
                                                         class="text-danger">*</span></label>
                                                 <input type="email" class="form-control" name="email" id="useremail"
-                                                    placeholder="Enter email address" required>
+                                                    placeholder="Enter email address" value="{{ old('email') }}" required>
                                                 <div class="invalid-feedback">
                                                     Please enter email
                                                 </div>
