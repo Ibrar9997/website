@@ -77,7 +77,7 @@
                                             </div>
                                         </div>
                                         @endif
-                                        <form action="{{ route('loginSave') }}" method="POST">
+                                        <form action="{{ route('login.action') }}" method="POST">
                                             @csrf
                                             <div class="mb-3">
                                                 <label for="useremail" class="form-label">Email <span

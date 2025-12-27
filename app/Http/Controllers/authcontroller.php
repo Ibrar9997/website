@@ -74,7 +74,7 @@ class AuthController extends Controller
 
 
     /****LoginAuth Function****/
-    public function check(Request $request)
+    public function loginAction(Request $request)
     {
         $credentials = $request->validate([
             'email' => 'required|email',

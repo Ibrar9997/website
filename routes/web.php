@@ -37,7 +37,7 @@ Route::middleware(['guest'])->group(function () {
 
     // ******Sign-in route******
     Route::get('/login', [AuthController::class, 'login'])->name('login');
-    Route::post('/loginSave', [AuthController::class, 'check'])->name('loginSave');
+    Route::post('/login', [AuthController::class, 'loginAction'])->name('login.action');
 
     //****Forgot Password route*****
     Route::get('/forgot', function () {
