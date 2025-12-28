@@ -11,7 +11,7 @@
 
             </ul>
             <div class="flex-shrink-0">
-                <a href="{{ route('edit_profile') }}" class="btn btn-success"><i class="ri-edit-box-line align-bottom"></i> Edit Profile</a>
+                <a href="{{ route('edit-profile') }}" class="btn btn-success"><i class="ri-edit-box-line align-bottom"></i> Edit Profile</a>
             </div>
         </div>
         <p><strong>Name:</strong> {{ auth()->user()->full_name }}</p>

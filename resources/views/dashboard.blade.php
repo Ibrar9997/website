@@ -7,10 +7,5 @@
 
 
 
-@section('scripts')
-<script>
-    console.log('Page 1');
-</script>
-@endsection
 
 

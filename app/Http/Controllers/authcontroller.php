@@ -137,22 +137,27 @@ class AuthController extends Controller
 
     /****UpdateUserData Function****/
     public function update(Request $request)
-    {
-        $user = Auth::user();
+{
+    $user = Auth::user();
 
-        if (!$user) {
-            return redirect()->route('login');
-        }
+    $validated = $request->validate([
+        'full_name' => 'required|string|max:255',
+        'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
+    ]);
 
-        $validated = $request->validate([
-            'full_name' => 'required|string|max:255',
-            'email' => ['required', 'email', Rule::unique('users')->ignore($user->id),],
+    $user->update($validated);
+
+    //  AJAX response
+    if ($request->ajax()) {
+        return response()->json([
+            'status' => true,
+            'message' => 'Profile updated successfully!',
         ]);
-
-        $user->update($validated);
-
-        return back()->with('success', 'Profile updated successfully!');
     }
+
+    return back()->with('success', 'Profile updated successfully!');
+}
+
 
     /****ForgotPasswordPage Function****/
     public function showForgotForm()

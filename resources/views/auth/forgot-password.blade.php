@@ -74,7 +74,7 @@
                                             Enter your email and instructions will be sent to you!
                                         </div>
                                         <div class="p-2">
-                                            <form method="POST" action="{{ route('password.email') }}">
+                                            <form method="POST" action="{{ route('password-email') }}">
                                                 @csrf
                                                 @if (session('status'))
                                                     <div class="alert alert-success">{{ session('status') }}</div>

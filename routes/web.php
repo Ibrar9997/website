@@ -11,19 +11,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', [AuthController::class, 'dashboard'])->name('dashboard');
 
     // ******Profile routes******
-    Route::get('/user_profile', function () {
-        return view('user_profile');
-    })->name('user_profile');
+    Route::get('/user-profile', function () {
+        return view('user-profile');
+    })->name('user-profile');
 
-    Route::get('/edit_profile', function () {
-        return view('edit_profile');
-    })->name('edit_profile');
+    Route::get('/edit-profile', function () {
+        return view('edit-profile');
+    })->name('edit-profile');
 
     Route::put('/profile-update', [AuthController::class, 'updatePassword'])
-        ->name('profile.update.password');
+        ->name('profile-update-password');
 
     Route::put('/profile', [AuthController::class, 'update'])
-        ->name('profile.update');
+        ->name('profile-update');
 
     //****Logout route****
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -37,18 +37,16 @@ Route::middleware(['guest'])->group(function () {
 
     // ******Sign-in route******
     Route::get('/login', [AuthController::class, 'login'])->name('login');
-    Route::post('/login', [AuthController::class, 'loginAction'])->name('login.action');
+    Route::post('/login', [AuthController::class, 'loginAction'])->name('login-action');
 
     //****Forgot Password route*****
-    Route::get('/forgot', function () {
-        return view('forgot');
-    })->name('forgot');
+    Route::get('/forgot', [AuthController::class, 'showForgotForm'])->name('forgot');
     Route::get('/forgot-password', [AuthController::class, 'showForgotForm'])
-        ->name('password.request');
+        ->name('password-request');
 
     //****Send reset email route***
     Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])
-        ->name('password.email');
+        ->name('password-email');
 
     //****RESET LINK route****
     Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])
@@ -56,8 +54,8 @@ Route::middleware(['guest'])->group(function () {
 
     //****RESET PASSWORD route****
     Route::post('/reset-password', [AuthController::class, 'resetPassword'])
-        ->name('password.update');
+        ->name('password-update');
 
     Route::get('/verify-email/{token}', [AuthController::class, 'verifyEmail'])
-        ->name('verify.email');
+        ->name('verify-email');
 });

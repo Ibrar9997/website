@@ -36,7 +36,7 @@
                             </div>
                         @endif
 
-                        <form action="{{ route('profile.update') }}" method="POST">
+                        <form action="{{ route('profile-update') }}" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="row">
@@ -88,39 +88,50 @@
                             </div>
                         @endif
 
-                        <form action="{{ route('profile.update.password') }}" method="POST">
+                        <form action="{{ route('profile-update-password') }}" method="POST">
                             @csrf
                             @method('PUT')
 
                             <div class="row g-2">
-                                <div class="col-lg-4">
+                                <div class="col-lg-4 position-relative">
                                     <label class="form-label">Old Password*</label>
-                                    <input type="password"
-                                           class="form-control"
-                                           name="oldpasswordInput"
-                                           required>
+                                    <div class="position-relative auth-pass-inputgroup mb-3">
+
+                                        <input type="password" class="form-control" id="old_password"
+                                            name="oldpasswordInput" required>
+                                        <button type="button"
+                                            class="btn btn-link position-absolute end-0 top-50 translate-middle-y"
+                                            onclick="togglePassword('old_password', this)">
+                                            <i class="ri-eye-fill align-middle"></i>
+                                        </button>
+                                    </div>
                                 </div>
 
-                                <div class="col-lg-4">
+                                <div class="col-lg-4 position-relative">
                                     <label class="form-label">New Password*</label>
-                                    <input type="password"
-                                           class="form-control"
-                                           name="newpasswordInput"
-                                           required>
+                                    <div class="position-relative auth-pass-inputgroup mb-3">
+
+                                        <input type="password" class="form-control" id="new_password"
+                                            name="newpasswordInput" required>
+                                        <button type="button"
+                                            class="btn btn-link position-absolute end-0 top-50 translate-middle-y"
+                                            onclick="togglePassword('new_password', this)">
+                                            <i class="ri-eye-fill align-middle"></i>
+                                        </button>
+                                    </div>
                                 </div>
 
-                                <div class="col-lg-4">
+                                <div class="col-lg-4 position-relative">
                                     <label class="form-label">Confirm Password*</label>
-                                    <input type="password"
-                                           class="form-control"
-                                           name="newpasswordInput_confirmation"
-                                           required>
-                                </div>
-
-                                <div class="col-lg-12 text-end mt-3">
-                                    <button type="submit" class="btn btn-success">
-                                        Change Password
-                                    </button>
+                                    <div class="position-relative auth-pass-inputgroup mb-3">
+                                        <input type="password" class="form-control" id="confirm_password"
+                                            name="newpasswordInput_confirmation" required>
+                                        <button type="button"
+                                            class="btn btn-link position-absolute end-0 top-50 translate-middle-y"
+                                            onclick="togglePassword('confirm_password', this)">
+                                            <i class="ri-eye-fill align-middle"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -130,4 +141,5 @@
                 </div>
             </div>
         </div>
+
     @endsection

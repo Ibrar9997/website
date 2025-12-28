@@ -83,7 +83,7 @@
                                                 <label for="useremail" class="form-label">Full Name <span
                                                         class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" name="full_name" id="useremail"
-                                                    placeholder="Enter your full name" required>
+                                                    placeholder="Enter your full name" value="{{ old('full_name') }}" required>
                                                 <div class="invalid-feedback">
                                                     Please Enter Your Name
                                                 </div>
@@ -105,10 +105,11 @@
                                                         name="password" onpaste="return false" placeholder="Enter password"
                                                         id="password-input" aria-describedby="passwordInput"
                                                         pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
-                                                    <button
-                                                        class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon material-shadow-none"
-                                                        type="button" id="password-addon"><i
-                                                            class="ri-eye-fill align-middle"></i></button>
+                                                        <button type="button"
+                                                        class="btn btn-link position-absolute end-0 top-50 translate-middle-y"
+                                                        onclick="togglePassword('password-input', this)">
+                                                        <i class="ri-eye-fill align-middle"></i>
+                                                    </button>
                                                     <div class="invalid-feedback">
                                                         Please enter password
                                                     </div>
@@ -122,10 +123,11 @@
                                                         placeholder="Enter password" id="password-input"
                                                         aria-describedby="passwordInput"
                                                         pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
-                                                    <button
-                                                        class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon material-shadow-none"
-                                                        type="button" id="password-addon"><i
-                                                            class="ri-eye-fill align-middle"></i></button>
+                                                        <button type="button"
+                                                        class="btn btn-link position-absolute end-0 top-50 translate-middle-y"
+                                                        onclick="togglePassword('password-input', this)">
+                                                        <i class="ri-eye-fill align-middle"></i>
+                                                    </button>
                                                     <div class="invalid-feedback">
                                                         Confirm Password
                                                     </div>
