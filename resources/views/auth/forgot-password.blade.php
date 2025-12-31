@@ -76,9 +76,6 @@
                                         <div class="p-2">
                                             <form method="POST" action="{{ route('password-email') }}">
                                                 @csrf
-                                                @if (session('status'))
-                                                    <div class="alert alert-success">{{ session('status') }}</div>
-                                                @endif
                                                 <div class="mb-4">
                                                     <label class="form-label">Email</label>
                                                     <input type="email" class="form-control" id="email" name="email"

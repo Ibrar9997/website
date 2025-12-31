@@ -63,18 +63,7 @@
                                     </div>
 
                                     <div class="mt-4">
-                                        {{-- {{ print_r($errors) }} --}}
-                                        @if ($errors->any())
-                                        <div class="card-footer text-body-secondary">
-                                            <div class="alert alert-danger">
-                                                <ul>
-                                                @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                                @endforeach
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        @endif
+
                                         <form class="needs-validation" novalidate action="{{ route('registerSave') }}"
                                             method="POST">
 
@@ -120,12 +109,12 @@
                                                 <div class="position-relative auth-pass-inputgroup">
                                                     <input type="password" class="form-control pe-5 password-input"
                                                         name="password_confirmation" onpaste="return false"
-                                                        placeholder="Enter password" id="password-input"
+                                                        placeholder="Enter password" id="confirmpassword-input"
                                                         aria-describedby="passwordInput"
                                                         pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
                                                         <button type="button"
                                                         class="btn btn-link position-absolute end-0 top-50 translate-middle-y"
-                                                        onclick="togglePassword('password-input', this)">
+                                                        onclick="togglePassword('confirmpassword-input', this)">
                                                         <i class="ri-eye-fill align-middle"></i>
                                                     </button>
                                                     <div class="invalid-feedback">

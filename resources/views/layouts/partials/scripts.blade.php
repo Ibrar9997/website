@@ -46,29 +46,57 @@
                 });
             },
             success: function (response) {
-                Swal.fire({
-                    toast: true,
-                    position: 'top-end',
-                    icon: 'success',
-                    title: response.message,
-                    showConfirmButton: false,
-                    timer: 3000
-                });
-            },
-            error: function (xhr) {
-                if (xhr.status === 422) {
-                    let errors = xhr.responseJSON.errors;
-                    Swal.fire({
-                        toast: true,
-                        position: 'top-end',
-                        icon: 'error',
-                        title: Object.values(errors)[0][0],
-                        showConfirmButton: false,
-                        timer: 3500
-                    });
-                }
-            }
+    Toast.fire({
+        icon: 'success',
+        title: response.message
+    });
+},
+error: function (xhr) {
+    if (xhr.status === 422) {
+        Toast.fire({
+            icon: 'error',
+            title: Object.values(xhr.responseJSON.errors)[0][0]
+        });
+    }
+}
+
         });
     });
     </script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3500,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    });
+
+    @if(session('success'))
+        Toast.fire({
+            icon: 'success',
+            title: "{{ session('success') }}"
+        });
+    @endif
+
+    @if(session('status'))
+        Toast.fire({
+            icon: 'success',
+            title: "{{ session('status') }}"
+        });
+    @endif
+
+    @if($errors->any())
+        Toast.fire({
+            icon: 'error',
+            title: "{{ $errors->first() }}"
+        });
+    @endif
+</script>

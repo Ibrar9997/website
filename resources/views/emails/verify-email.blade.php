@@ -12,7 +12,7 @@
     <p>Please click the button below to verify your email:</p>
 
     <p>
-        <a href="{{ route('verify.email', $user->email_verification_token) }}"
+        <a href="{{ route('verify-email', $user->email_verification_token) }}"
            style="padding:10px 15px;background:#0d6efd;color:#fff;text-decoration:none;">
             Verify Email
         </a>
