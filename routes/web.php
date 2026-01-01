@@ -7,8 +7,15 @@ use Illuminate\Support\Facades\Mail;
 
 Route::middleware(['auth'])->group(function () {
 
-    // ******Dashboard route******
-    Route::get('/', [AuthController::class, 'dashboard'])->name('dashboard');
+    Route::get('/admin-dashboard', function () {
+        return view('admin-dashboard');
+    })->name('admin.dashboard');
+
+    Route::get('/', function () {
+        return view('user-dashboard');
+    })->name('user.dashboard');
+
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     // ******Profile routes******
     Route::get('/user-profile', function () {

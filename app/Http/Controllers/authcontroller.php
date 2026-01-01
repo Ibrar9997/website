@@ -65,7 +65,7 @@ class AuthController extends Controller
         $user->email_verification_token = null;
         $user->save();
 
-        Auth::logout(); // force clean state
+        Auth::logout();
 
         return redirect()->route('login')
             ->with('status', 'Email verified successfully! You can now login.');
@@ -75,41 +75,45 @@ class AuthController extends Controller
 
     /****LoginAuth Function****/
     public function loginAction(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
+{
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    if (!Auth::attempt($credentials)) {
+        return back()->withErrors([
+            'email' => 'Invalid login credentials.',
         ]);
-
-        if (!Auth::attempt($credentials)) {
-            return back()->withErrors([
-                'email' => 'Invalid login credentials.',
-            ]);
-        }
-
-        $user = Auth::user();
-
-        if (is_null($user->email_verified_at)) {
-            Auth::logout();
-
-            return back()->withErrors([
-                'email' => 'Please verify your email before logging in.',
-            ]);
-        }
-
-        $request->session()->regenerate();
-
-        return redirect()->route('dashboard');
     }
 
-    /****DashboardPage Function****/
-    public function dashboard()
-    {
-        if (Auth::check()) {
-            return view('dashboard');
-        }
-        return redirect()->route('login');
+    $user = Auth::user();
+
+    if (is_null($user->email_verified_at)) {
+        Auth::logout();
+        return back()->withErrors([
+            'email' => 'Please verify your email before logging in.',
+        ]);
     }
+
+    $request->session()->regenerate();
+
+    if ($user->role === 'admin') {
+        return redirect()->route('admin.dashboard');
+    }
+
+    return redirect()->route('user.dashboard');
+}
+
+
+    // /****DashboardPage Function****/
+    // public function dashboard()
+    // {
+    //     if (Auth::check()) {
+    //         return view('dashboard');
+    //     }
+    //     return redirect()->route('login');
+    // }
 
     /****Logout Function****/
     public function logout(Request $request)
