@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\Rules\Password as PasswordRule;
 use Illuminate\Support\Str;
 use App\Mail\VerifyEmail;
+use App\Models\Category;
+
 
 class AuthController extends Controller
 {
@@ -35,12 +37,25 @@ class AuthController extends Controller
         $validated = $request->validate([
             'full_name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
+            'address' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'state' => 'required|string|max:255',
+            'zip' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
+            'gender' => 'required|string|max:255',
             'password' => 'required|min:8|confirmed',
+
         ]);
 
         $user = User::create([
             'full_name' => $validated['full_name'],
             'email' => $validated['email'],
+            'address' => $validated['address'],
+            'city' => $validated['city'],
+            'state' => $validated['state'],
+            'zip' => $validated['zip'],
+            'phone' => $validated['phone'],
+            'gender' => $validated['gender'],
             'password' => Hash::make($validated['password']),
             'email_verification_token' => Str::uuid(),
         ]);
@@ -147,11 +162,16 @@ class AuthController extends Controller
     $validated = $request->validate([
         'full_name' => 'required|string|max:255',
         'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
+        'address' => 'nullable|string|max:255',
+        'city' => 'nullable|string|max:255',
+        'state' => 'nullable|string|max:255',
+        'zip' => 'nullable|string|max:255',
+        'phone' => 'nullable|string|max:255',
+        'gender' => 'nullable|string|max:255',
     ]);
 
     $user->update($validated);
 
-    //  AJAX response
     if ($request->ajax()) {
         return response()->json([
             'status' => true,
@@ -159,7 +179,50 @@ class AuthController extends Controller
         ]);
     }
 
-    return back()->with('success', 'Profile updated successfully!');
+    return back()->with('status', 'Profile updated successfully!');
+}
+
+public function categorystore(Request $request)
+{
+    $validated = $request->validate([
+        'category_name' => 'required|string|max:255',
+        'added_date' => 'required|date',
+        'status' => 'required|in:Active,Block',
+    ]);
+
+    Category::create($validated);
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Category added successfully!',
+    ]);
+}
+
+public function index()
+{
+    $categories = Category::latest()->get();
+
+    return view('e-commerce', compact('categories'));
+}
+
+public function categoryUpdate(Request $request, $id)
+{
+    $request->validate([
+        'category_name' => 'required',
+        'status' => 'required'
+    ]);
+
+    $category = Category::findOrFail($id);
+    $category->update($request->only('category_name', 'status'));
+
+    return response()->json(['message' => 'Category updated']);
+}
+
+public function categoryDelete($id)
+{
+    Category::findOrFail($id)->delete();
+
+    return response()->json(['message' => 'Category deleted']);
 }
 
 

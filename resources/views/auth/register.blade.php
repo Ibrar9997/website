@@ -71,7 +71,7 @@
                                             <div class="mb-3">
                                                 <label for="useremail" class="form-label">Full Name <span
                                                         class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" name="full_name" id="useremail"
+                                                <input type="text" class="form-control" name="full_name" id="full_name"
                                                     placeholder="Enter your full name" value="{{ old('full_name') }}" required>
                                                 <div class="invalid-feedback">
                                                     Please Enter Your Name
@@ -85,6 +85,53 @@
                                                 <div class="invalid-feedback">
                                                     Please enter email
                                                 </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="address" class="form-label">Address <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" placeholder="Enter your address" class="form-control" id="address" name="address" required>
+                                                <div class="invalid-feedback">
+                                                    Please Enter Your Address
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <div>
+                                                <label for="city" class="form-label">City</label>
+                                                <input type="text" class="form-control" placeholder="City" id="city" name="city" required>
+                                                <div class="invalid-feedback">
+                                                    City
+                                                </div>
+                                                <label for="zip" class="form-label">ZIP/Postal Code</label>
+                                                <input type="text" class="form-control" placeholder="ZIP/Postal Code" id="zip" name="zip" required>
+                                                <div class="invalid-feedback">
+                                                    ZIP/Postal Code
+                                                </div>
+                                                <label for="state" class="form-label">State/Province</label>
+                                                <input type="text" class="form-control" placeholder="State/Province" id="state" name="state">
+                                                <div class="invalid-feedback">
+                                                    State/Province
+                                                </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="phone" class="form-label">Phone Number</label>
+                                                <input type="tel" id="phone" class="form-control" name="phone" placeholder="e.g., 0333 1112223" required>
+                                                <div class="invalid-feedback">
+                                                    Phone Number
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="gender" class="form-label">Gender</label>
+                                                <select id="gender" class="form-control" name="gender">
+                                                    <option value="">Select Gender</option>
+                                                    <option value="male">Male</option>
+                                                    <option value="female">Female</option>
+                                                    <option value="other">Other</option>
+                                                    <option value="prefer_not_say">Prefer not to say</option>
+                                                </select>
                                             </div>
 
                                             <div class="mb-3">

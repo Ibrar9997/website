@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Mail;
 
 Route::middleware(['auth'])->group(function () {
 
+    // ******Dashboard routes******
     Route::get('/admin-dashboard', function () {
         return view('admin-dashboard');
     })->name('admin.dashboard');
@@ -16,6 +17,22 @@ Route::middleware(['auth'])->group(function () {
     })->name('user.dashboard');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // ******Categories routes******
+    Route::get('/e-commerce', [AuthController::class, 'index'])
+    ->name('e.commerce');
+
+Route::post('/categories', [AuthController::class, 'categorystore'])
+    ->name('categories.store');
+
+Route::put('/categories/{id}', [AuthController::class, 'categoryUpdate'])->name('categories.update');
+
+Route::delete('/categories/{id}', [AuthController::class, 'categoryDelete'])->name('categories.delete');
+
+
+
+
+
 
     // ******Profile routes******
     Route::get('/user-profile', function () {

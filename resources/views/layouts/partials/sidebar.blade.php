@@ -38,16 +38,16 @@
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarDashboards">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="#" class="nav-link" data-key="t-analytics"> Analytics </a>
-                            </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
+                                <a href="{{ route('user.dashboard') }}"> E-Commerce </a>
+                            </li> --}}
+                            {{-- <li class="nav-item">
                                 <a href="#" class="nav-link" data-key="t-crm"> CRM </a>
-                            </li>
+                            </li> --}}
                             <li class="nav-item">
-                                <a href="" class="nav-link" data-key="t-ecommerce"> Ecommerce </a>
+                                <a href="{{ route('e.commerce') }}" class="nav-link" data-key="t-ecommerce"> Ecommerce </a>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a href="dashboard-crypto.html" class="nav-link" data-key="t-crypto"> Crypto </a>
                             </li>
                             <li class="nav-item">
@@ -55,13 +55,13 @@
                             </li>
                             <li class="nav-item">
                                 <a href="dashboard-nft.html" class="nav-link" data-key="t-nft"> NFT</a>
-                            </li>
-                            <li class="nav-item">
+                            </li> --}}
+                            {{-- <li class="nav-item">
                                 <a href="dashboard-job.html" class="nav-link" data-key="t-job">Job</a>
                             </li>
                             <li class="nav-item">
                                 <a href="dashboard-blog.html" class="nav-link"><span data-key="t-blog">Blog</span> <span class="badge bg-success" data-key="t-new">New</span></a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </li> <!-- end Dashboard Menu -->

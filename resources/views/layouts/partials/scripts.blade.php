@@ -100,3 +100,70 @@ error: function (xhr) {
         });
     @endif
 </script>
+
+<script>
+    $(document).ready(function () {
+
+        $('#categoryForm').on('submit', function (e) {
+            e.preventDefault();
+
+            let form = this;
+
+            // Bootstrap frontend validation
+            if (!form.checkValidity()) {
+                form.classList.add('was-validated');
+                return;
+            }
+
+            $.ajax({
+                url: $(form).attr('action'),
+                type: "POST",
+                data: $(form).serialize(),
+
+                beforeSend: function () {
+                    Toast.fire({
+                        icon: 'info',
+                        title: 'Saving category...'
+                    });
+                },
+
+                success: function (response) {
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: response.message
+                    });
+
+                    // Reset form + validation
+                    form.reset();
+                    form.classList.remove('was-validated');
+
+                    // Close modal
+                    $('#showModal').modal('hide');
+
+                    // OPTIONAL: reload or append row
+                    // location.reload();
+                },
+
+                error: function (xhr) {
+                    if (xhr.status === 422) {
+                        let errors = xhr.responseJSON.errors;
+                        let firstError = Object.values(errors)[0][0];
+
+                        Toast.fire({
+                            icon: 'error',
+                            title: firstError
+                        });
+                    } else {
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Something went wrong!'
+                        });
+                    }
+                }
+            });
+        });
+
+    });
+    </script>
+

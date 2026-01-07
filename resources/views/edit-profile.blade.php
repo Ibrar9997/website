@@ -43,11 +43,58 @@
                                             name="email">
                                     </div>
                                 </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="firstnameInput" class="form-label">Address</label>
+                                        <input type="text" class="form-control" id="firstnameInput"
+                                            placeholder="Enter your address"
+                                            value="{{ old('address', auth()->user()->address) }}" name="address">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="firstnameInput" class="form-label">City</label>
+                                        <input type="text" class="form-control" id="firstnameInput"
+                                            placeholder="Enter your city"
+                                            value="{{ old('city', auth()->user()->city) }}" name="city">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="firstnameInput" class="form-label">State/Province</label>
+                                        <input type="text" class="form-control" id="firstnameInput"
+                                            placeholder="State/Province"
+                                            value="{{ old('state', auth()->user()->state) }}" name="state">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="firstnameInput" class="form-label">ZIP/Postal Code</label>
+                                        <input type="text" class="form-control" id="firstnameInput"
+                                            placeholder="ZIP/Postal Code"
+                                            value="{{ old('zip', auth()->user()->zip) }}" name="zip">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="firstnameInput" class="form-label">Phone Number</label>
+                                        <input type="text" class="form-control" id="firstnameInput"
+                                            placeholder="Enter your Phone Number"
+                                            value="{{ old('phone', auth()->user()->phone) }}" name="phone">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="firstnameInput" class="form-label">Gender</label>
+                                        <input type="text" class="form-control" id="firstnameInput"
+                                            placeholder="Gender"
+                                            value="{{ old('gender', auth()->user()->gender) }}" name="gender">
+                                    </div>
+                                </div>
                                 <!--end col-->
                                 <div class="col-lg-12">
                                     <div class="hstack gap-2 justify-content-end">
-                                        <button type="submit" class="btn btn-primary">Updates</button>
-                                        <button type="button" class="btn btn-soft-success">Cancel</button>
+                                        <button type="submit" class="btn btn-primary">Update</button>
                                     </div>
                                 </div>
                                 <!--end col-->
@@ -116,6 +163,11 @@
                                             onclick="togglePassword('confirm_password', this)">
                                             <i class="ri-eye-fill align-middle"></i>
                                         </button>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="hstack gap-2 justify-content-end">
+                                        <button type="submit" class="btn btn-primary">Update</button>
                                     </div>
                                 </div>
                             </div>
