@@ -190,6 +190,8 @@ public function categorystore(Request $request)
         'status' => 'required|in:Active,Block',
     ]);
 
+    $validated['slug'] = Str::slug($validated['category_name']);
+
     Category::create($validated);
 
     return response()->json([
@@ -208,14 +210,22 @@ public function index()
 public function categoryUpdate(Request $request, $id)
 {
     $request->validate([
-        'category_name' => 'required',
-        'status' => 'required'
+        'category_name' => 'required|string|max:255',
+        'status' => 'required|in:Active,Block',
     ]);
 
     $category = Category::findOrFail($id);
-    $category->update($request->only('category_name', 'status'));
 
-    return response()->json(['message' => 'Category updated']);
+    $category->update([
+        'category_name' => $request->category_name,
+        'slug' => Str::slug($request->category_name),
+        'status' => $request->status
+    ]);
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Category updated successfully'
+    ]);
 }
 
 public function categoryDelete($id)
